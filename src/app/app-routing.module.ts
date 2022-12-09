@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TimetableComponent } from '../modules/timetable/timetable/timetable.component';
+import { MealComponent } from '../modules/meal/meal/meal.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/timetable', pathMatch: 'full' },
+  { path: '', redirectTo: '/meal-plan', pathMatch: 'full' },
   {
-    path: 'timetable',
-    loadChildren: () => import('../modules/timetable/timetable.module').then(m => m.TimetableModule),
-    component: TimetableComponent
+    path: 'meal-plan',
+    loadChildren: () => import('../modules/meal/meal.module').then(m => m.MealModule),
+    component: MealComponent
   }
 ];
 
