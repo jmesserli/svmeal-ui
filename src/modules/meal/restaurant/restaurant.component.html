@@ -21,7 +21,10 @@
 </mat-form-field>
 
 <div class="restaurant-container">
-  <mat-card *ngFor="let restaurant of restaurants$ | async">
+  <mat-card
+    *ngFor="let restaurant of restaurants$ | async"
+    (click)="openRestaurant(restaurant)"
+  >
     <mat-card-content>
       <div class="restaurant-card">
         <div>

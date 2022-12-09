@@ -10,6 +10,7 @@ import {
   tap,
 } from 'rxjs';
 import { RestaurantModel } from '../../shared/models/restaurant.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meal',
@@ -28,9 +29,9 @@ export class RestaurantComponent implements OnDestroy {
   @ViewChild('filter', { read: ElementRef })
   private filter!: ElementRef<HTMLInputElement>;
 
-  constructor(private mealService: MealService) {
+  constructor(private router: Router, mealService: MealService) {
     this.restaurants$ = combineLatest([
-      this.mealService.restaurants$.pipe(
+      mealService.restaurants$.pipe(
         tap(() => this.ready$.next(true)),
         map((restaurants) =>
           restaurants.sort((a, b) => a.name.localeCompare(b.name))
@@ -65,5 +66,9 @@ export class RestaurantComponent implements OnDestroy {
     }
 
     this.filter$.next(this.filter.nativeElement.value);
+  }
+
+  openRestaurant(restaurant: RestaurantModel) {
+    this.router.navigate(['/', 'meal-plan', restaurant.shortcut]);
   }
 }

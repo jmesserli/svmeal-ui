@@ -1,16 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RestaurantComponent } from './meal/restaurant.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
 import { SharedModule } from '../shared/shared.module';
-
-
+import { MealplanComponent } from './mealplan/mealplan.component';
 
 @NgModule({
-  declarations: [
-    RestaurantComponent
-  ],
-  imports: [
-    SharedModule
-  ]
+  declarations: [RestaurantComponent, MealplanComponent],
+  imports: [SharedModule],
 })
-export class MealModule { }
+export class MealModule {}

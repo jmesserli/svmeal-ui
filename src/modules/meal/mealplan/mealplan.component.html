@@ -1,0 +1,48 @@
+<h1>Menuplan</h1>
+<h2>{{ (restaurant$ | async)?.name }}</h2>
+
+<ng-container *ngIf="(mealPlans$ | async)?.plans; let plans">
+  <mat-accordion>
+    <ng-container *ngFor="let day of sortedMealPlanDays$ | async; index as i">
+      <ng-container *ngIf="plans[day]; let plan">
+        <mat-expansion-panel [expanded]="i == 0">
+          <mat-expansion-panel-header>
+            {{ plan.date }}
+          </mat-expansion-panel-header>
+
+          <div class="meals">
+            <mat-card *ngFor="let meal of plan.offers">
+              <mat-card-content>
+                <h3>{{ meal.title }}</h3>
+
+                <ul class="trimmings">
+                  <li *ngFor="let trim of meal.trimmings">
+                    {{ trim }}
+                  </li>
+                </ul>
+
+                <mat-chip-set role="list">
+                  <mat-chip
+                    *ngIf="meal.price.internalPrice > 0"
+                    color="primary"
+                    role="listitem"
+                  >
+                    INT
+                    {{ meal.price.internalPrice | currency }}
+                  </mat-chip>
+                  <mat-chip
+                    *ngIf="meal.price.externalPrice > 0"
+                    color="secondary"
+                    role="listitem"
+                  >
+                    EXT {{ meal.price.externalPrice | currency }}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </ng-container>
+  </mat-accordion>
+</ng-container>

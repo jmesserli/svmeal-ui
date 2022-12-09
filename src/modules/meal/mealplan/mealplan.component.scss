@@ -1,0 +1,34 @@
+.meals {
+  display: grid;
+
+  $gap: 1rem;
+  $min-width: 10em;
+  $cols: 4;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      max($min-width, calc((100% / #{$cols}) - (#{$gap} / #{$cols - 1}))),
+      1fr
+    )
+  );
+
+  grid-gap: $gap;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  ul.trimmings {
+    list-style: none;
+    padding-left: 0.5em;
+  }
+
+  .chips {
+    display: flex;
+
+    > *:not(:last-child) {
+      margin-right: 0.5em;
+    }
+  }
+}
