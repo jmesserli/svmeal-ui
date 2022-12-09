@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MealComponent } from '../modules/meal/meal/meal.component';
+import { RestaurantComponent } from '../modules/meal/meal/restaurant.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/meal-plan', pathMatch: 'full' },
+  { path: '', redirectTo: '/restaurants', pathMatch: 'full' },
   {
-    path: 'meal-plan',
+    path: 'restaurants',
     loadChildren: () => import('../modules/meal/meal.module').then(m => m.MealModule),
-    component: MealComponent
+    component: RestaurantComponent
   }
 ];
 

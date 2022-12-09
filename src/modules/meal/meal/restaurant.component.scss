@@ -1,0 +1,60 @@
+.header-line {
+  display: flex;
+
+  align-items: center;
+
+  > .mat-mdc-progress-spinner {
+    $size: 15px;
+
+    margin-left: 1rem;
+
+    width: $size !important;
+    height: $size !important;
+  }
+}
+
+.search {
+  width: 100%;
+}
+
+.restaurant-container {
+  display: grid;
+
+  $gap: 1rem;
+  $min-width: 10em;
+  $cols: 4;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      max($min-width, calc((100% / #{$cols}) - (#{$gap} / #{$cols - 1}))),
+      1fr
+    )
+  );
+
+  grid-gap: $gap;
+
+  > * {
+    cursor: pointer;
+  }
+}
+
+.restaurant-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  div:first-child {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    > *:not(:last-child) {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  .muted {
+    opacity: 0.5;
+  }
+}

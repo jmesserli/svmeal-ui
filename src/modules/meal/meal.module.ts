@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MealComponent } from './meal/meal.component';
+import { RestaurantComponent } from './meal/restaurant.component';
 import { SharedModule } from '../shared/shared.module';
 
 
 
 @NgModule({
   declarations: [
-    MealComponent
+    RestaurantComponent
   ],
   imports: [
     SharedModule

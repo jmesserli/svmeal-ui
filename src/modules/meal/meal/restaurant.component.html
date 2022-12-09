@@ -1,0 +1,36 @@
+<div class="header-line">
+  <h1>Restaurants</h1>
+
+  <mat-spinner *ngIf="!(ready$ | async)"></mat-spinner>
+</div>
+
+<mat-form-field appearance="outline" class="search">
+  <mat-label>Restaurant suchen</mat-label>
+
+  <mat-icon matPrefix>search</mat-icon>
+
+  <input type="text" matInput #filter (keyup)="onFilterChanged($event)" />
+
+  <button
+    mat-icon-button
+    matSuffix
+    (click)="filter.value = ''; onFilterChanged()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<div class="restaurant-container">
+  <mat-card *ngFor="let restaurant of restaurants$ | async">
+    <mat-card-content>
+      <div class="restaurant-card">
+        <div>
+          <span>{{ restaurant.name }}</span>
+          <span class="muted">{{ restaurant.shortcut }}</span>
+        </div>
+
+        <mat-icon *ngIf="!restaurant.public" class="muted">lock </mat-icon>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
