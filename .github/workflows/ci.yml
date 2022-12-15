@@ -11,47 +11,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3.5.1
+      - uses: actions/checkout@v3
 
-    - name: Cache node-modules
-      uses: actions/cache@v3
-      with:
-        path: node-modules/
-        key: ${{ runner.os }}-nodemodules
-        
-    - name: NPM Install
-      run: npm ci
-      
-    - name: NPM Build
-      run: npm run build
-      
-    - name: NPM Test
-      run: npm run test -- --browsers ChromeHeadless
-      
-    - name: NPM Lint
-      run: npm run lint
-      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.5.1
+
+      - name: Cache node-modules
+        uses: actions/cache@v3
+        with:
+          path: node-modules/
+          key: ${{ runner.os }}-nodemodules
+
+      - name: NPM Install
+        run: npm ci
+
+      - name: NPM Build
+        run: npm run build
+
+      - name: NPM Test
+        run: npm run test-ci
+
+      - name: NPM Lint
+        run: npm run lint
+
   publish-docker:
     runs-on: ubuntu-latest
-    
+
     if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
-    
+
     steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-      
-    - name: Docker Login
-      uses: docker/login-action@v2.1.0
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Build and push
-      uses: docker/build-push-action@v3
-      with:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker Login
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
           push: true
           tags: "ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.run_number }}"
