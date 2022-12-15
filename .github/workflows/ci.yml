@@ -29,7 +29,7 @@ jobs:
       run: npm run build
       
     - name: NPM Test
-      run: npm run test
+      run: npm run test -- --browsers ChromeHeadless
       
     - name: NPM Lint
       run: npm run lint
