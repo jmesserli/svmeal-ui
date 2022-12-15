@@ -22,17 +22,17 @@ jobs:
         path: node-modules/
         key: ${{ runner.os }}-nodemodules
         
-    - name: NPM install
+    - name: NPM Install
       run: npm ci
       
     - name: NPM Build
-      run: npm build
+      run: npm run build
       
     - name: NPM Test
-      run: npm test
+      run: npm run test
       
     - name: NPM Lint
-      run: npm lint
+      run: npm run lint
       
   publish-docker:
     runs-on: ubuntu-latest
