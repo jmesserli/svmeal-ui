@@ -31,9 +31,6 @@ jobs:
       - name: NPM Test
         run: npm run test-ci
 
-      - name: NPM Lint
-        run: npm run lint
-
   publish-docker:
     runs-on: ubuntu-latest
 
