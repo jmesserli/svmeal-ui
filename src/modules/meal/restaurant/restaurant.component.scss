@@ -21,17 +21,9 @@
   display: grid;
 
   $gap: 1rem;
-  $min-width: 10em;
-  $cols: 4;
+  $min-width: 22em;
 
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(
-      max($min-width, calc((100% / #{$cols}) - (#{$gap} / #{$cols - 1}))),
-      1fr
-    )
-  );
-
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, $min-width), 1fr));
   grid-gap: $gap;
 
   > * {

@@ -1,9 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  Observable,
+  shareReplay,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { RestaurantModel } from '../../shared/models/restaurant.model';
 import { MealService } from '../../shared/meal.service';
 import { MealPlansModel } from '../../shared/models/meal-plan.model';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-mealplan',
@@ -26,6 +35,7 @@ export class MealplanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.restaurantShort$ = this.route.paramMap.pipe(
       map((params) => params.get('restaurant') ?? ''),
+      distinctUntilChanged(),
       takeUntil(this._destroy$)
     );
 
@@ -35,11 +45,15 @@ export class MealplanComponent implements OnInit, OnDestroy {
           map((restaurants) => restaurants.filter((r) => r.shortcut === rest)),
           map((rests) => rests[0])
         )
-      )
+      ),
+      shareReplay(1),
+      takeUntil(this._destroy$)
     );
 
     this.mealPlans$ = this.restaurantShort$.pipe(
-      switchMap((rest) => this.mealService.getMealPlans$(rest))
+      switchMap((rest) => this.mealService.getMealPlans$(rest)),
+      shareReplay(1),
+      takeUntil(this._destroy$)
     );
 
     this.sortedMealPlanDays$ = this.mealPlans$.pipe(
@@ -50,5 +64,10 @@ export class MealplanComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  isToday(date: string): boolean {
+    const now = DateTime.now();
+    return DateTime.fromISO(date).hasSame(now, 'day');
   }
 }

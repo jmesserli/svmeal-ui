@@ -2,33 +2,42 @@
   display: grid;
 
   $gap: 1rem;
-  $min-width: 10em;
-  $cols: 4;
+  $min-width: 20rem;
 
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(
-      max($min-width, calc((100% / #{$cols}) - (#{$gap} / #{$cols - 1}))),
-      1fr
-    )
-  );
-
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, $min-width), 1fr));
   grid-gap: $gap;
 
-  h3 {
-    margin-top: 0;
-  }
-
-  ul.trimmings {
-    list-style: none;
-    padding-left: 0.5em;
-  }
-
-  .chips {
-    display: flex;
-
-    > *:not(:last-child) {
-      margin-right: 0.5em;
+  .meal-card {
+    h3 {
+      margin-top: 0;
     }
+
+    ul.trimmings {
+      list-style: none;
+      padding-left: 0.5em;
+    }
+
+    .chips {
+      display: flex;
+
+      > *:not(:last-child) {
+        margin-right: 0.5em;
+      }
+    }
+  }
+}
+
+.panel-header-line {
+  display: flex;
+  align-items: center;
+
+  .today {
+    margin-left: 0.5rem;
+
+    $size: 0.75rem;
+
+    font-size: $size;
+    width: $size;
+    height: $size;
   }
 }
