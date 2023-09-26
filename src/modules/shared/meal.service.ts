@@ -1,8 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay, Subject, takeUntil } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, shareReplay, Subject, takeUntil } from 'rxjs';
 import { RestaurantModel } from './models/restaurant.model';
 import { MealPlansModel } from './models/meal-plan.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class MealService implements OnDestroy {
@@ -10,10 +11,23 @@ export class MealService implements OnDestroy {
 
   private readonly _restaurants$: Observable<RestaurantModel[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this._restaurants$ = this.http
       .get<RestaurantModel[]>('https://svmeal.pegnu.dev/api/restaurant')
-      .pipe(shareReplay(1), takeUntil(this._destroy$));
+      .pipe(
+        shareReplay(1),
+        catchError((e, c) => {
+          this.snackBar.open(
+            `Error loading restaurants (HTTP ${
+              (e as HttpErrorResponse).status
+            }), please try again later.`,
+            'Close',
+            { duration: 5000 }
+          );
+          return [];
+        }),
+        takeUntil(this._destroy$)
+      );
   }
 
   ngOnDestroy(): void {

@@ -20,6 +20,8 @@ import { Router } from '@angular/router';
 export class RestaurantComponent implements OnDestroy {
   private readonly _destroy$ = new Subject<void>();
 
+  private currentRestaurants: RestaurantModel[] = [];
+
   ready$ = new BehaviorSubject(false);
 
   filter$ = new Subject<string>();
@@ -46,7 +48,8 @@ export class RestaurantComponent implements OnDestroy {
             restaurant.shortcut.toLowerCase().includes(filter.toLowerCase())
           );
         });
-      })
+      }),
+      tap((restaurants) => (this.currentRestaurants = restaurants))
     );
   }
 
@@ -61,6 +64,11 @@ export class RestaurantComponent implements OnDestroy {
         this.filter.nativeElement.value = '';
         this.filter$.next('');
 
+        return;
+      } else if (event.key === 'Enter') {
+        if (this.currentRestaurants.length === 1) {
+          this.openRestaurant(this.currentRestaurants[0]);
+        }
         return;
       }
     }
