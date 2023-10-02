@@ -23,7 +23,14 @@
           <div class="meals">
             <mat-card class="meal-card" *ngFor="let meal of plan.offers">
               <mat-card-content>
-                <h3>{{ meal.title }}</h3>
+                <div class="title-container">
+                  <h3 class="title">{{ meal.title }}</h3>
+                  <img *ngIf="meal.dietaryRestriction"
+                       [src]="'assets/img/' + meal.dietaryRestriction.toLowerCase() +'.png'"
+                       class="dietary-restriction-icon" [alt]="meal.dietaryRestriction.toLowerCase() + '-icon'"
+                       [matTooltip]="getDietaryRestrictionTooltip(meal.dietaryRestriction)"
+                  />
+                </div>
 
                 <ul class="trimmings">
                   <li *ngFor="let trim of meal.trimmings">

@@ -70,4 +70,14 @@ export class MealplanComponent implements OnInit, OnDestroy {
     const now = DateTime.now();
     return DateTime.fromISO(date).hasSame(now, 'day');
   }
+
+  getDietaryRestrictionTooltip(dietaryRestriction: string): string {
+    switch (dietaryRestriction) {
+      case 'VEGAN':
+        return 'Vegan: Auf Produkte und Zutaten tierischen Ursprungs wurde vollständig verzichtet.';
+      case 'VEGETARIAN':
+        return 'Vegetarisch: Dieses Menu beinhaltet weder Fleisch noch Fisch.';
+    }
+    return '';
+  }
 }

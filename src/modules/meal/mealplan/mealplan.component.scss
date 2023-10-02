@@ -41,3 +41,19 @@
     height: $size;
   }
 }
+
+.title-container {
+  display: flex;
+  align-items: start;
+  align-content: start;
+  justify-content: space-between;
+
+  .title {
+    margin: 0;
+  }
+
+  .dietary-restriction-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

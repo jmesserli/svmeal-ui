@@ -16,4 +16,5 @@ export interface OfferModel {
     externalPrice: number;
   };
   provenance: string;
+  dietaryRestriction: 'VEGETARIAN' | 'VEGAN';
 }
