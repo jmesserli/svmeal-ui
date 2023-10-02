@@ -7,13 +7,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class MealService implements OnDestroy {
+  private readonly apiBaseUrl = 'https://svmeal.pegnu.dev/api';
   private readonly _destroy$ = new Subject<void>();
 
   private readonly _restaurants$: Observable<RestaurantModel[]>;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this._restaurants$ = this.http
-      .get<RestaurantModel[]>('https://svmeal.pegnu.dev/api/restaurant')
+      .get<RestaurantModel[]>(`${this.apiBaseUrl}/restaurant`)
       .pipe(
         shareReplay(1),
         catchError((e, c) => {
@@ -41,7 +42,7 @@ export class MealService implements OnDestroy {
 
   public getMealPlans$(restaurant: string): Observable<MealPlansModel> {
     return this.http.get<MealPlansModel>(
-      `https://svmeal.pegnu.dev/api/restaurant/${restaurant}/meal`
+      `${this.apiBaseUrl}/restaurant/${restaurant}/meal`
     );
   }
 }
