@@ -57,7 +57,7 @@ export class MealplanComponent implements OnInit, OnDestroy {
     );
 
     this.sortedMealPlanDays$ = this.mealPlans$.pipe(
-      map((mealPlans) => Object.keys(mealPlans.plans).sort())
+      map((mealPlans) => Object.keys(mealPlans.plans).sort()) // NOSONAR typescript:S2871
     );
   }
 
@@ -69,15 +69,5 @@ export class MealplanComponent implements OnInit, OnDestroy {
   isToday(date: string): boolean {
     const now = DateTime.now();
     return DateTime.fromISO(date).hasSame(now, 'day');
-  }
-
-  getDietaryRestrictionTooltip(dietaryRestriction: string): string {
-    switch (dietaryRestriction) {
-      case 'VEGAN':
-        return 'Vegan: Auf Produkte und Zutaten tierischen Ursprungs wurde vollständig verzichtet.';
-      case 'VEGETARIAN':
-        return 'Vegetarisch: Dieses Menu beinhaltet weder Fleisch noch Fisch.';
-    }
-    return '';
   }
 }
