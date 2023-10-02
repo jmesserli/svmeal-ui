@@ -57,7 +57,7 @@ export class MealplanComponent implements OnInit, OnDestroy {
     );
 
     this.sortedMealPlanDays$ = this.mealPlans$.pipe(
-      map((mealPlans) => Object.keys(mealPlans.plans).sort())
+      map((mealPlans) => Object.keys(mealPlans.plans).sort()) // NOSONAR typescript:S2871
     );
   }
 

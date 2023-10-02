@@ -8,6 +8,8 @@ export interface MealPlanModel {
   offers: OfferModel[];
 }
 
+export type DietaryRestriction = 'VEGETARIAN' | 'VEGAN';
+
 export interface OfferModel {
   title: string;
   trimmings: string[];
@@ -16,4 +18,5 @@ export interface OfferModel {
     externalPrice: number;
   };
   provenance: string;
+  dietaryRestriction: DietaryRestriction;
 }

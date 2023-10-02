@@ -8,7 +8,7 @@
         <mat-expansion-panel [expanded]="isToday(plan.date)">
           <mat-expansion-panel-header>
             <div class="panel-header-line">
-              {{ plan.date | date: "fullDate" }}
+              {{ plan.date | date : "fullDate" }}
               <mat-icon
                 class="today"
                 color="accent"
@@ -23,7 +23,12 @@
           <div class="meals">
             <mat-card class="meal-card" *ngFor="let meal of plan.offers">
               <mat-card-content>
-                <h3>{{ meal.title }}</h3>
+                <div class="title-container">
+                  <h3 class="title">{{ meal.title }}</h3>
+                  <app-dietary-restriction
+                    [restriction]="meal.dietaryRestriction"
+                  ></app-dietary-restriction>
+                </div>
 
                 <ul class="trimmings">
                   <li *ngFor="let trim of meal.trimmings">

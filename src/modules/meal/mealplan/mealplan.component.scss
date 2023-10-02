@@ -41,3 +41,13 @@
     height: $size;
   }
 }
+
+.title-container {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+
+  .title {
+    margin: 0;
+  }
+}
