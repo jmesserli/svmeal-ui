@@ -1,0 +1,15 @@
+<mat-card
+  *ngIf="restaurant"
+  (click)="selected.emit(restaurant)"
+>
+  <mat-card-content>
+    <div class="restaurant-card">
+      <div>
+        <span>{{ restaurant.name }}</span>
+        <span class="muted">{{ restaurant.shortcut }}</span>
+      </div>
+
+      <mat-icon *ngIf="!restaurant.public" class="muted">lock</mat-icon>
+    </div>
+  </mat-card-content>
+</mat-card>

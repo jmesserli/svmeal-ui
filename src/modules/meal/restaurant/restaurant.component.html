@@ -20,20 +20,23 @@
   </button>
 </mat-form-field>
 
-<div class="restaurant-container">
-  <mat-card
-    *ngFor="let restaurant of restaurants$ | async"
-    (click)="openRestaurant(restaurant)"
-  >
-    <mat-card-content>
-      <div class="restaurant-card">
-        <div>
-          <span>{{ restaurant.name }}</span>
-          <span class="muted">{{ restaurant.shortcut }}</span>
-        </div>
+<div
+  class="restaurant-container"
+  *ngIf="!(filter$ | async) && (favoriteRestaurants$ | async)?.length"
+>
+  <app-restaurant-card
+    *ngFor="let restaurant of favoriteRestaurants$ | async"
+    [restaurant]="restaurant"
+    (selected)="openRestaurant($event)"
+  ></app-restaurant-card>
+</div>
 
-        <mat-icon *ngIf="!restaurant.public" class="muted">lock</mat-icon>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<hr *ngIf="!(filter$ | async) && (favoriteRestaurants$ | async)?.length" />
+
+<div class="restaurant-container">
+  <app-restaurant-card
+    *ngFor="let restaurant of restaurants$ | async"
+    [restaurant]="restaurant"
+    (selected)="openRestaurant($event)"
+  ></app-restaurant-card>
 </div>
