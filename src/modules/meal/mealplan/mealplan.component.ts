@@ -29,35 +29,35 @@ export class MealplanComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private mealService: MealService
+    private mealService: MealService,
   ) {}
 
   ngOnInit(): void {
     this.restaurantShort$ = this.route.paramMap.pipe(
       map((params) => params.get('restaurant') ?? ''),
       distinctUntilChanged(),
-      takeUntil(this._destroy$)
+      takeUntil(this._destroy$),
     );
 
     this.restaurant$ = this.restaurantShort$.pipe(
       switchMap((rest) =>
         this.mealService.restaurants$.pipe(
           map((restaurants) => restaurants.filter((r) => r.shortcut === rest)),
-          map((rests) => rests[0])
-        )
+          map((rests) => rests[0]),
+        ),
       ),
       shareReplay(1),
-      takeUntil(this._destroy$)
+      takeUntil(this._destroy$),
     );
 
     this.mealPlans$ = this.restaurantShort$.pipe(
       switchMap((rest) => this.mealService.getMealPlans$(rest)),
       shareReplay(1),
-      takeUntil(this._destroy$)
+      takeUntil(this._destroy$),
     );
 
     this.sortedMealPlanDays$ = this.mealPlans$.pipe(
-      map((mealPlans) => Object.keys(mealPlans.plans).sort()) // NOSONAR typescript:S2871
+      map((mealPlans) => Object.keys(mealPlans.plans).sort()), // NOSONAR typescript:S2871
     );
   }
 

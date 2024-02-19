@@ -2,13 +2,20 @@
 <h2>{{ (restaurant$ | async)?.name }}</h2>
 
 <ng-container *ngIf="(mealPlans$ | async)?.plans; let plans">
+  <p *ngIf="(sortedMealPlanDays$ | async)?.length === 0">
+    Für dieses Restaurant scheinen aktuell keine Angebote zur Verfügung zu
+    stehen. Du kannst es direkt auf der
+    <a [href]="(restaurant$ | async)?.link" target="_blank"> SV-Webseite </a>
+    versuchen.
+  </p>
+
   <mat-accordion>
     <ng-container *ngFor="let day of sortedMealPlanDays$ | async; index as i">
       <ng-container *ngIf="plans[day]; let plan">
         <mat-expansion-panel [expanded]="isToday(plan.date)">
           <mat-expansion-panel-header>
             <div class="panel-header-line">
-              {{ plan.date | date : "fullDate" }}
+              {{ plan.date | date: "fullDate" }}
               <mat-icon
                 class="today"
                 color="accent"
@@ -47,7 +54,7 @@
                   </mat-chip>
                   <mat-chip
                     *ngIf="meal.price.externalPrice > 0"
-                    color="secondary"
+                    color="accent"
                     role="listitem"
                   >
                     EXT {{ meal.price.externalPrice | currency }}
@@ -60,7 +67,9 @@
               <p>
                 Für diesen Tag konnten die Angebote scheinbar nicht richtig
                 eingelesen werden. Du kannst es direkt auf der
-                <a [href]="(restaurant$ | async)?.link">SV-Webseite</a>
+                <a [href]="(restaurant$ | async)?.link" target="_blank">
+                  SV-Webseite
+                </a>
                 versuchen.
               </p>
             </ng-container>

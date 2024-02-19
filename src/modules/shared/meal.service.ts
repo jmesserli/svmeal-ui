@@ -1,6 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, shareReplay, Subject, takeUntil } from 'rxjs';
+import {
+  catchError,
+  Observable,
+  of,
+  shareReplay,
+  Subject,
+  takeUntil,
+  throwError,
+} from 'rxjs';
 import { RestaurantModel } from './models/restaurant.model';
 import { MealPlansModel } from './models/meal-plan.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +20,10 @@ export class MealService implements OnDestroy {
 
   private readonly _restaurants$: Observable<RestaurantModel[]>;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+  ) {
     this._restaurants$ = this.http
       .get<RestaurantModel[]>(`${this.apiBaseUrl}/restaurant`)
       .pipe(
@@ -23,11 +34,11 @@ export class MealService implements OnDestroy {
               (e as HttpErrorResponse).status
             }), please try again later.`,
             'Close',
-            { duration: 5000 }
+            { duration: 5000 },
           );
           return [];
         }),
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       );
   }
 
@@ -41,8 +52,26 @@ export class MealService implements OnDestroy {
   }
 
   public getMealPlans$(restaurant: string): Observable<MealPlansModel> {
-    return this.http.get<MealPlansModel>(
-      `${this.apiBaseUrl}/restaurant/${restaurant}/meal`
-    );
+    return this.http
+      .get<MealPlansModel>(`${this.apiBaseUrl}/restaurant/${restaurant}/meal`)
+      .pipe(
+        catchError((err, caught) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status == 404) {
+              return of({ plans: {} } as MealPlansModel);
+            }
+
+            this.snackBar.open(
+              'Error loading meal plans, please try again later. (HTTP ' +
+                err.status +
+                ')',
+              'Close',
+              { duration: 5000 },
+            );
+          }
+
+          return throwError(() => err);
+        }),
+      );
   }
 }
